@@ -1,4 +1,3 @@
-To solve the problem from scratch, here's how you can approach it step-by-step:
 
 ### Step 1: **Understand the Problem Statement**
 - The task is to create a **naïve forecast** for "distance per dollar" for Uber requests, and calculate the **Root Mean Squared Error (RMSE)** between the actual values and the forecasted values.
