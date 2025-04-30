@@ -44,28 +44,23 @@ RETURN list of unique returning active user_ids
 ## 🧾 SQL-Based Pseudocode with CTE & DATEDIFF
 
 ```sql
--- Step 1: Create a base CTE to select all transactions
 WITH purchases AS (
     SELECT * FROM amazon_transactions
 ),
-
--- Step 2: Self-join purchases for the same user where one is after the other
 joined_purchases AS (
     SELECT
         p1.user_id,
         p1.created_at AS first_purchase,
-        p2.created_at AS second_purchase,
-        DATEDIFF(p2.created_at, p1.created_at) AS days_difference
+        p2.created_at AS second_purchase
     FROM purchases p1
     JOIN purchases p2
         ON p1.user_id = p2.user_id
         AND p2.created_at > p1.created_at
+        AND p2.created_at <= datetime(p1.created_at, '+7 days')
 )
-
--- Step 3: Filter pairs where the second purchase was within 7 days
 SELECT DISTINCT user_id
-FROM joined_purchases
-WHERE days_difference BETWEEN 1 AND 7;
+FROM joined_purchases;
+
 ```
 
 ---
